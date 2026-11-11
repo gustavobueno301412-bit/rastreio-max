@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rastreio Max</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-accent: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --brand-blue: #2563eb;
+      --brand-blue-hover: #1d4ed8;
+      --brand-dark: #1e293b;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --success: #10b981;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 10px;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0f172a;
+      --bg-card: #1e293b;
+      --bg-accent: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+      --brand-blue: #3b82f6;
+      --brand-blue-hover: #2563eb;
+      --brand-dark: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      padding: 24px 16px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--bg-card);
+      padding: 20px 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+    }
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-title span.logo-icon {
+      font-size: 1.8rem;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    p.subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary {
+      background-color: var(--brand-blue);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--brand-blue-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-accent);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      filter: brightness(0.95);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: #ffffff;
+    }
+
+    .btn-danger:hover {
+      background-color: var(--danger-hover);
+    }
+
+    .search-card {
+      background: var(--bg-card);
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
+    .search-input-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    input[type="text"], input[type="password"], input[type="url"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-accent);
+      color: var(--text-main);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    input[type="text"]:focus, input[type="password"]:focus, input[type="url"]:focus {
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .tech-doc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .tech-doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      background-color: var(--bg-accent);
+      color: var(--brand-blue);
+      border: 1px solid var(--border-color);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-address {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background-color: var(--bg-accent);
+      padding: 6px 12px;
+      border-radius: 6px;
+      width: 100%;
+      word-break: break-all;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-accent);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 24px;
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .admin-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 8px 14px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .tab-btn.active {
+      background-color: var(--brand-blue);
+      color: #ffffff;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .table-container {
+      overflow-x: auto;
+      max-height: 380px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    th, td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background-color: var(--bg-accent);
+      color: var(--text-main);
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+
+    tr:hover {
+      background-color: var(--bg-accent);
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .action-btn:hover {
+      background-color: rgba(239, 68, 68, 0.15);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="header-title">
+        <span class="logo-icon">🔍</span>
+        <div>
+          <h1>Localizador Técnico</h1>
+          <p class="subtitle">Consulta de Ferramentais & Dispositivos</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" onclick="alternarTema()" title="Alternar Tema">🌙 / ☀️</button>
+        <button class="btn btn-secondary" onclick="abrirModalAdmin()">🔐 Admin</button>
+      </div>
+    </header>
+
+    <div class="search-card">
+      <div class="search-input-group">
+        <input type="text" id="inputBusca" placeholder="Digite ou passe o leitor no Código da Peça..." onkeypress="tratarKeyPress(event)">
+        <button class="btn btn-primary" onclick="buscarPeca()">🔍 Buscar</button>
+      </div>
+    </div>
+
+    <div id="resultadoContainer" class="hidden">
+      <div class="tech-doc-card">
+        <div class="tech-doc-header">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="font-size: 1.2rem;">📦</span>
+            <div>
+              <h2 id="resCodigoPeca" style="font-size: 1.1rem; font-weight: 700;">Peça: -</h2>
+              <span id="resCodigoCliente" class="subtitle">Cliente: -</span>
+            </div>
+          </div>
+          <span class="badge">📄 DT: <span id="resEndDt">-</span></span>
+        </div>
+      </div>
+
+      <div class="grid-cards">
+        <div class="card">
+          <div class="card-title">🛠️ Ferramenta</div>
+          <div class="card-address" id="resEndFerramenta">End: -</div>
+          <img id="imgFerramenta" src="" alt="Ferramenta" onerror="tratarErroImagem(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-title">📐 Dispositivo de Qualidade</div>
+          <div class="card-address" id="resEndDispositivo">End: -</div>
+          <img id="imgDispositivo" src="" alt="Dispositivo" onerror="tratarErroImagem(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-title">🧩 Peça Modelo</div>
+          <div class="card-address" id="resEndPecaModelo">End: -</div>
+          <img id="imgPecaModelo" src="" alt="Peça Modelo" onerror="tratarErroImagem(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-title">🛡️ Poka Yoke (Dobradeira)</div>
+          <div class="card-address" id="resEndPokaYoke">End: -</div>
+          <img id="imgPokaYoke" src="" alt="Poka Yoke" onerror="tratarErroImagem(this)">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal PIN -->
+  <div id="modalPin" class="modal">
+    <div class="modal-content" style="max-width: 360px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem;">🔐 Acesso Restrito</h3>
+        <button class="btn btn-secondary" style="padding: 4px 8px;" onclick="fecharModal('modalPin')">✕</button>
+      </div>
+      <div class="form-group">
+        <label for="inputPin">PIN de Segurança (4 dígitos):</label>
+        <input type="password" id="inputPin" maxlength="4" placeholder="••••" style="text-align: center; font-size: 1.2rem; letter-spacing: 4px;">
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+        <button class="btn btn-secondary" onclick="fecharModal('modalPin')">Cancelar</button>
+        <button class="btn btn-primary" onclick="confirmarPin()">Acessar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Admin Gerenciador -->
+  <div id="modalAdmin" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>⚙️ Painel de Administração</h3>
+        <button class="btn btn-secondary" style="padding: 4px 8px;" onclick="fecharModal('modalAdmin')">✕</button>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="tab-btn active" id="tabListaBtn" onclick="trocarAbaAdmin('lista')">📋 Peças Cadastradas</button>
+        <button class="tab-btn" id="tabCadBtn" onclick="trocarAbaAdmin('cadastro')">➕ Nova Peça</button>
+        <button class="tab-btn" id="tabPinBtn" onclick="trocarAbaAdmin('pin')">🔑 Alterar PIN</button>
+      </div>
+
+      <!-- Aba 1: Lista e Exclusão -->
+      <div id="abaLista">
+        <div style="margin-bottom: 12px; display: flex; gap: 10px;">
+          <input type="text" id="filtroTabela" placeholder="🔎 Filtrar por código da peça ou cliente..." onkeyup="filtrarTabela()">
+          <button class="btn btn-secondary" onclick="carregarListaPecas()">🔄 Atualizar</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Código Peça</th>
+                <th>Código Cliente</th>
+                <th>End. DT</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaCorpo">
+              <tr><td colspan="4" style="text-align: center;">Carregando peças...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Aba 2: Cadastro -->
+      <div id="abaCadastro" class="hidden">
+        <form id="formCadastro" onsubmit="salvarCadastro(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Código da Peça *</label>
+              <input type="text" id="cadCodigoPeca" required placeholder="Ex: PC-1020">
+            </div>
+            <div class="form-group">
+              <label>Código do Cliente</label>
+              <input type="text" id="cadCodigoCliente" placeholder="Ex: CLI-998">
+            </div>
+            <div class="form-group">
+              <label>Endereço DT (Doc. Técnico)</label>
+              <input type="text" id="cadEndDt" placeholder="Ex: A-12">
+            </div>
+          </div>
+
+          <hr style="margin: 15px 0; border-color: var(--border-color);">
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>End. Ferramenta</label>
+              <input type="text" id="cadEndFerramenta" placeholder="Ex: Prateleira B3">
+            </div>
+            <div class="form-group">
+              <label>URL Imagem Ferramenta</label>
+              <input type="url" id="cadImgFerramenta" placeholder="https://...">
+            </div>
+
+            <div class="form-group">
+              <label>End. Dispositivo Qualidade</label>
+              <input type="text" id="cadEndDispositivo" placeholder="Ex: Armário Q1">
+            </div>
+            <div class="form-group">
+              <label>URL Imagem Dispositivo</label>
+              <input type="url" id="cadImgDispositivo" placeholder="https://...">
+            </div>
+
+            <div class="form-group">
+              <label>End. Peça Modelo</label>
+              <input type="text" id="cadEndPecaModelo" placeholder="Ex: Gaveta M4">
+            </div>
+            <div class="form-group">
+              <label>URL Imagem Peça Modelo</label>
+              <input type="url" id="cadImgPecaModelo" placeholder="https://...">
+            </div>
+
+            <div class="form-group">
+              <label>End. Poka Yoke</label>
+              <input type="text" id="cadEndPokaYoke" placeholder="Ex: Estante P2">
+            </div>
+            <div class="form-group">
+              <label>URL Imagem Poka Yoke</label>
+              <input type="url" id="cadImgPokaYoke" placeholder="https://...">
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+            <button type="submit" class="btn btn-primary">💾 Salvar Registro</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Aba 3: Alterar PIN -->
+      <div id="abaPin" class="hidden">
+        <form onsubmit="salvarNovoPin(event)" style="max-width: 320px; margin: 0 auto;">
+          <div class="form-group">
+            <label>Novo PIN de 4 dígitos:</label>
+            <input type="password" id="novoPinInput" maxlength="4" required placeholder="Ex: 5678" style="text-align: center; font-size: 1.1rem;">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">🔑 Salvar Novo PIN</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxnF8LbzE-QsYb0XmDbTttkwiqkkBwzjwk6oKyF2ssBN4FWl1byZT-16olguaIHsLer/exec";
+    const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='140' viewBox='0 0 200 140'><rect width='200' height='140' fill='%23e2e8f0'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%2364748b'>📷 Sem Imagem</text></svg>";
+   
+    let pinValidado = "";
+    let listaPecasGlobal = [];
+
+    function alternarTema() {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    }
+
+    function tratarErroImagem(imgElement) {
+      imgElement.src = PLACEHOLDER_IMG;
+    }
+
+    function tratarKeyPress(e) {
+      if (e.key === 'Enter') buscarPeca();
+    }
+
+    async function buscarPeca() {
+      const codigo = document.getElementById('inputBusca').value.trim();
+      if (!codigo) return alert("Digite um código para realizar a busca.");
+
+      try {
+        const response = await fetch(`${API_URL}?action=buscar&codigo=${encodeURIComponent(codigo)}`);
+        const result = await response.json();
+
+        if (result.status === "success") {
+          const d = result.data;
+          document.getElementById('resCodigoPeca').innerText = `Peça: ${d.codigo_peca}`;
+          document.getElementById('resCodigoCliente').innerText = `Cliente: ${d.codigo_cliente || '-'}`;
+          document.getElementById('resEndDt').innerText = d.end_dt || '-';
+
+          document.getElementById('resEndFerramenta').innerText = `End: ${d.end_ferramenta || '-'}`;
+          document.getElementById('imgFerramenta').src = d.img_ferramenta || PLACEHOLDER_IMG;
+
+          document.getElementById('resEndDispositivo').innerText = `End: ${d.end_dispositivo || '-'}`;
+          document.getElementById('imgDispositivo').src = d.img_dispositivo || PLACEHOLDER_IMG;
+
+          document.getElementById('resEndPecaModelo').innerText = `End: ${d.end_peca_modelo || '-'}`;
+          document.getElementById('imgPecaModelo').src = d.img_peca_modelo || PLACEHOLDER_IMG;
+
+          document.getElementById('resEndPokaYoke').innerText = `End: ${d.end_poka_yoke || '-'}`;
+          document.getElementById('imgPokaYoke').src = d.img_poka_yoke || PLACEHOLDER_IMG;
+
+          document.getElementById('resultadoContainer').classList.remove('hidden');
+        } else {
+          alert("⚠️ Peça não encontrada no sistema.");
+          document.getElementById('resultadoContainer').classList.add('hidden');
+        }
+      } catch (err) {
+        alert("Erro ao conectar à API.");
+      }
+    }
+
+    function abrirModalAdmin() {
+      document.getElementById('inputPin').value = '';
+      document.getElementById('modalPin').style.display = 'flex';
+    }
+
+    function fecharModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    async function confirmarPin() {
+      const pin = document.getElementById('inputPin').value.trim();
+      if (pin.length !== 4) return alert("Digite o PIN com 4 dígitos.");
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'validarPin', pin: pin })
+        });
+        const result = await response.json();
+
+        if (result.status === "success") {
+          pinValidado = pin;
+          fecharModal('modalPin');
+          document.getElementById('modalAdmin').style.display = 'flex';
+          carregarListaPecas();
+        } else {
+          alert("❌ PIN incorreto!");
+        }
+      } catch (err) {
+        alert("Erro ao verificar PIN.");
+      }
+    }
+
+    function trocarAbaAdmin(aba) {
+      document.getElementById('abaLista').classList.add('hidden');
+      document.getElementById('abaCadastro').classList.add('hidden');
+      document.getElementById('abaPin').classList.add('hidden');
+
+      document.getElementById('tabListaBtn').classList.remove('active');
+      document.getElementById('tabCadBtn').classList.remove('active');
+      document.getElementById('tabPinBtn').classList.remove('active');
+
+      if (aba === 'lista') {
+        document.getElementById('abaLista').classList.remove('hidden');
+        document.getElementById('tabListaBtn').classList.add('active');
+      } else if (aba === 'cadastro') {
+        document.getElementById('abaCadastro').classList.remove('hidden');
+        document.getElementById('tabCadBtn').classList.add('active');
+      } else if (aba === 'pin') {
+        document.getElementById('abaPin').classList.remove('hidden');
+        document.getElementById('tabPinBtn').classList.add('active');
+      }
+    }
+
+    async function carregarListaPecas() {
+      const tbody = document.getElementById('tabelaCorpo');
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Carregando peças...</td></tr>';
+
+      try {
+        const response = await fetch(`${API_URL}?action=listarTodos`);
+        const result = await response.json();
+
+        if (result.status === "success") {
+          listaPecasGlobal = result.data;
+          renderizarTabela(listaPecasGlobal);
+        } else {
+          tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Erro ao carregar itens.</td></tr>';
+        }
+      } catch (err) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Erro ao conectar com a API.</td></tr>';
+      }
+    }
+
+    function renderizarTabela(itens) {
+      const tbody = document.getElementById('tabelaCorpo');
+      if (itens.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nenhuma peça cadastrada.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = itens.map(item => `
+        <tr>
+          <td><strong>${item.codigo_peca}</strong></td>
+          <td>${item.codigo_cliente || '-'}</td>
+          <td>${item.end_dt || '-'}</td>
+          <td>
+            <button class="action-btn" title="Excluir Peça" onclick="excluirPeca('${item.codigo_peca}')">🗑️</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filtrarTabela() {
+      const termo = document.getElementById('filtroTabela').value.toLowerCase();
+      const filtrados = listaPecasGlobal.filter(p =>
+        String(p.codigo_peca).toLowerCase().includes(termo) ||
+        String(p.codigo_cliente).toLowerCase().includes(termo)
+      );
+      renderizarTabela(filtrados);
+    }
+
+    async function excluirPeca(codigoPeca) {
+      if (!confirm(`Tem certeza que deseja excluir a peça "${codigoPeca}"?`)) return;
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'excluir', pin: pinValidado, codigo_peca: codigoPeca })
+        });
+        const result = await response.json();
+
+        if (result.status === "success") {
+          alert("🗑️ Peça excluída com sucesso!");
+          carregarListaPecas();
+        } else {
+          alert("Erro ao excluir: " + result.message);
+        }
+      } catch (err) {
+        alert("Erro ao processar exclusão.");
+      }
+    }
+
+    async function salvarCadastro(e) {
+      e.preventDefault();
+
+      const payload = {
+        action: 'cadastrar',
+        pin: pinValidado,
+        codigo_peca: document.getElementById('cadCodigoPeca').value,
+        codigo_cliente: document.getElementById('cadCodigoCliente').value,
+        end_dt: document.getElementById('cadEndDt').value,
+        end_ferramenta: document.getElementById('cadEndFerramenta').value,
+        img_ferramenta: document.getElementById('cadImgFerramenta').value,
+        end_dispositivo: document.getElementById('cadEndDispositivo').value,
+        img_dispositivo: document.getElementById('cadImgDispositivo').value,
+        end_peca_modelo: document.getElementById('cadEndPecaModelo').value,
+        img_peca_modelo: document.getElementById('cadImgPecaModelo').value,
+        end_poka_yoke: document.getElementById('cadEndPokaYoke').value,
+        img_poka_yoke: document.getElementById('cadImgPokaYoke').value
+      };
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (result.status === "success") {
+          alert("✅ Peça cadastrada com sucesso!");
+          document.getElementById('formCadastro').reset();
+          trocarAbaAdmin('lista');
+          carregarListaPecas();
+        } else {
+          alert("Erro ao cadastrar: " + result.message);
+        }
+      } catch (err) {
+        alert("Erro ao enviar dados.");
+      }
+    }
+
+    async function salvarNovoPin(e) {
+      e.preventDefault();
+      const novoPin = document.getElementById('novoPinInput').value.trim();
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'alterarPin', pinAtual: pinValidado, novoPin: novoPin })
+        });
+        const result = await response.json();
+
+        if (result.status === "success") {
+          alert("🔑 PIN alterado com sucesso!");
+          pinValidado = novoPin;
+          document.getElementById('novoPinInput').value = '';
+          trocarAbaAdmin('lista');
+        } else {
+          alert("Erro: " + result.message);
+        }
+      } catch (err) {
+        alert("Erro ao alterar o PIN.");
+      }
+    }
+  </script>
+</body>
+</html>
+
+ 
